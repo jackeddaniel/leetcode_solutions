@@ -2,46 +2,52 @@
 //and on every letter call the backtracking function and see if it works
 //handle edge cases very very carefully
 
-
-
 class Solution {
-    public:
-        bool ans;
-        void help(vector<vector<char>> board, string word, int i, int j, int index){
-            if(index == word.size()) {
-                ans = true;
-                return;
-            }
+public:
+    void help(bool &ans, vector<vector<char>>& board, string& word, int i, int j, int index) {
+        if(ans) return;
 
-            if(board[i][j] != word[i]) {
-                return;
-            }
+        // If all characters matched
+        if(index == word.size()) {
+            ans = true;
+            return;
+        }
 
-            if(board[i][j] == word[i]) {
-                board[i][j] = '0';
-                
-                if(i<word.size() && board[i+1][j] != '0') help(board,word,i++,j,index++);
-                if(i>0 && board[i-1][j] != '0') help(board,word,i--,j,index++);
-                if(j<word.size() && board[i][j+1] != '0') help(board,word,i,j++,index++);
-                if(j>0 && board[i][j-1] != '0') help(board,word,i,j--,index++);
+        // Boundary check
+        if(i < 0 || i >= board.size() || j < 0 || j >= board[0].size()) {
+            return;
+        }
+
+        // Character mismatch
+        if(board[i][j] != word[index]) {
+            return;
+        }
+
+        char temp = board[i][j];
+        board[i][j] = '#';  // mark visited
+
+        // Explore all 4 directions
+        help(ans, board, word, i - 1, j, index + 1);
+        help(ans, board, word, i + 1, j, index + 1);
+        help(ans, board, word, i, j - 1, index + 1);
+        help(ans, board, word, i, j + 1, index + 1);
+
+        board[i][j] = temp; // backtrack
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        int l = board.size();
+        int w = board[0].size();
+        bool ans = false;
+
+        for(int i = 0; i < l; i++) {
+            for(int j = 0; j < w; j++) {
+                help(ans, board, word, i, j, 0);
+                if(ans) return true;
             }
         }
-                
-                
-
-        bool exist(vector<vector<char>>& board, string word) {
-            int l = board.size();
-            int w = board[0].size();
-            int n = word.size();
-
-            for(int i = 0; i < l; i++) {
-                for(int j = 0; j < w; j++) {
-                    //call func
-                    help(board,word,i,j,0);
-                    if(ans == true) return ans;
-
-                }
-            }
-            return false;
-       }
+        return false;
+    }
 };
+
+
