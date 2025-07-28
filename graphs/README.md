@@ -10,3 +10,6 @@ The most common way to store graphs are edge_list, adjacency_matrix, adjacency_l
 - Similar to tree bfs.
 - Like dfs we need to have hashmap to keep track of visited nodes.
 
+**Topological Sort**
+- A topological sort of a Directed Acyclic Graph is a linear order of it's nodes such that there are no cycles.
+
