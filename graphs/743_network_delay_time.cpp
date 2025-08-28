@@ -2,52 +2,46 @@ class Solution {
     public:
 
         int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-            // build an adjacency list
-            vector<vector<pair<int,int>>> adj_list(n+1);
-            for(auto t : times) {
-                adj_list[t[0]].push_back({t[1],t[2]});
-            }
+            vector<vector<pair<int, int>>> a_list(n+1);
             
-            // initiliaze the distance and processed arrays
-            vector<int> distance(n+1);
-            for(int i = 0; i <= n; i++) distance[n] = INT_MAX;
-            vector<int> processed(n+1);
-            for(int i = 0 i <= n; i++) processed[n] = INT_MAX;
+            for(int i = 0; i < times.size(); i++) {
+                a_list[times[i][0]].push_back({times[i][1], times[i][2]});
+            }
 
+            vector<int> distance(n+1, INT_MAX);
+            vector<int> processed(n+1, 0);
+
+            priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+            pq.push({0, k});
             distance[k] = 0;
-
-            // make the min_heap
-            priority_queue<pair<int,int>, vector<pair<int,int>>, greate<pair<int,int>>> pq;
-
-            pq.push({0,k});
 
             while(!pq.empty()) {
                 int curr = pq.top().second;
                 pq.pop();
 
-                if(processed[curr] == 1) continue;
-
+                if(processed[curr]) continue;
                 processed[curr] = 1;
 
-                for(auto edge : adj_list[curr]) {
+                for(auto edge : a_list[curr]) {
                     int node = edge.first;
                     int weight = edge.second;
 
-                    int new_weight = distance[curr] + weight;
-
-                    if(new_weight < distance[node]) {
-                        distance[node] = new_weight;
+                    if(distance[curr] + weight < distance[node]) {
+                        distance[node] = distance[curr] + weight;
                         pq.push({distance[node], node});
                     }
                 }
             }
 
-            int ans = 0;
+            int time = 0;
+            
             for(int i = 1; i <= n; i++) {
                 if(distance[i] == INT_MAX) return -1;
-                ans = max(ans, distance[i]);
+                time = max(time, distance[i]);
             }
-            return ans;
+
+            return time;
         }
 };
 

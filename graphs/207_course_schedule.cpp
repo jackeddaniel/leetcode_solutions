@@ -2,7 +2,6 @@
 //
 //
 
-
 class Solution {
     public:
         bool dfs(int i, vector<int>& visited, vector<vector<int>>& graph) {
@@ -20,7 +19,7 @@ class Solution {
         }
         bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
             // we build the graph using an adjacency list
-            vector<vector<int>> graph(numCourses);
+            vector<vector<int>> graph(numCurses);
             for(auto& pre : prerequisites) {
                 graph[pre[0]].push_back(pre[1]);
             }
