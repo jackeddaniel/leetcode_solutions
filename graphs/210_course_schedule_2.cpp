@@ -1,3 +1,8 @@
+#include<vector>
+#include<iostream>
+
+using namespace std;
+
 //We have to do the same as course schedule 1 and find if there is a cycle, but we should also return a correct order to take all the courses
 class Solution {
     public:
