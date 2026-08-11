@@ -70,11 +70,15 @@ public:
             if(prev_big[i] == -1 && next_big[i] == -1) {
                 //this is the peak
                 heights[i] = maxHeights[i];
+                res += heights[i];
+                continue;
             }
-
-
-
-
+            //if both prev_small are next_small are -1
+            if(prev_small[i] == -1 && next_small[i] == -1) {
+                heights[i] = maxHeights[i];
+                res+= heights[i];
+                continue;
+            }
         }
         
     }
